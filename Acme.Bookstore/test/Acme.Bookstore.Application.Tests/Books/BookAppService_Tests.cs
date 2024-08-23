@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Acme.BookStore.Books;
+using Acme.Bookstore.Books;
 using Shouldly;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Modularity;

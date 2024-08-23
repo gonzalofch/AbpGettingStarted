@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Acme.BookStore.Books;
+namespace Acme.Bookstore.Books;
 
 public class CreateUpdateBookDto
 {

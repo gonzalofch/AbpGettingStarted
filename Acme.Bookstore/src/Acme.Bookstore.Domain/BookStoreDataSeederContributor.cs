@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using Acme.BookStore.Books;
+using Acme.Bookstore.Books;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Repositories;

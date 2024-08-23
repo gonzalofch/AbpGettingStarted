@@ -3,7 +3,7 @@ using Acme.Bookstore.Permissions;
 using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Localization;
 
-namespace Acme.BookStore.Permissions;
+namespace Acme.Bookstore.Permissions;
 
 public class BookstorePermissionDefinitionProvider : PermissionDefinitionProvider
 {
@@ -16,7 +16,6 @@ public class BookstorePermissionDefinitionProvider : PermissionDefinitionProvide
         booksPermission.AddChild(BookstorePermissions.Books.Edit, L("Permission:Books.Edit"));
         booksPermission.AddChild(BookstorePermissions.Books.Delete, L("Permission:Books.Delete"));
     }
-
 
     private static LocalizableString L(string name)
     {

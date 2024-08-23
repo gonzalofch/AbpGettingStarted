@@ -1,4 +1,4 @@
-﻿using Acme.BookStore.Books;
+﻿using Acme.Bookstore.Books;
 using AutoMapper;
 
 namespace Acme.Bookstore;
