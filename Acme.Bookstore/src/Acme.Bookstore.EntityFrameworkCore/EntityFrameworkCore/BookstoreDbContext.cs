@@ -94,8 +94,11 @@ public class BookstoreDbContext :
         builder.Entity<Book>(b =>
         {
             b.ToTable(BookstoreConsts.DbTablePrefix + "Books", BookstoreConsts.DbSchema);
-            b.ConfigureByConvention();
+            b.ConfigureByConvention(); //auto configure for the base class props
             b.Property(x => x.Name).IsRequired().HasMaxLength(128);
+
+            // ADD THE MAPPING FOR THE RELATION
+            b.HasOne<Author>().WithMany().HasForeignKey(x => x.AuthorId).IsRequired();
         });
         
         builder.Entity<Author>(b =>
