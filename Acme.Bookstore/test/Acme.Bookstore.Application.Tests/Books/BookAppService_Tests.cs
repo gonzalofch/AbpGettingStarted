@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Acme.Bookstore.Books;
+using Acme.Bookstore.Authors;
 using Shouldly;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Modularity;
@@ -14,10 +14,12 @@ public abstract class BookAppService_Tests<TStartupModule> : BookstoreApplicatio
     where TStartupModule : IAbpModule
 {
     private readonly IBookAppService _bookAppService;
+    private readonly IAuthorAppService _authorAppService;
 
     protected BookAppService_Tests()
     {
         _bookAppService = GetRequiredService<IBookAppService>();
+        _authorAppService = GetRequiredService<IAuthorAppService>();
     }
 
     [Fact]
@@ -30,19 +32,24 @@ public abstract class BookAppService_Tests<TStartupModule> : BookstoreApplicatio
 
         //Assert
         result.TotalCount.ShouldBeGreaterThan(0);
-        result.Items.ShouldContain(b => b.Name == "1984");
+        result.Items.ShouldContain(b => b.Name == "1984" &&
+                                        b.AuthorName == "George Orwell");
     }
 
     [Fact]
     public async Task Should_Create_A_Valid_Book()
     {
+        var authors = await _authorAppService.GetListAsync(new GetAuthorListDto());
+        var firstAuthor = authors.Items.First();
+
         //Act
         var result = await _bookAppService.CreateAsync(
             new CreateUpdateBookDto
             {
+                AuthorId = firstAuthor.Id,
                 Name = "New test book 42",
                 Price = 10,
-                PublishDate = DateTime.Now,
+                PublishDate = System.DateTime.Now,
                 Type = BookType.ScienceFiction
             }
         );
@@ -51,7 +58,7 @@ public abstract class BookAppService_Tests<TStartupModule> : BookstoreApplicatio
         result.Id.ShouldNotBe(Guid.Empty);
         result.Name.ShouldBe("New test book 42");
     }
-    
+
     [Fact]
     public async Task Should_Not_Create_A_Book_Without_Name()
     {
@@ -69,8 +76,6 @@ public abstract class BookAppService_Tests<TStartupModule> : BookstoreApplicatio
         });
 
         exception.ValidationErrors
-            .ShouldContain(err => err.MemberNames.Any(mem => mem == "Name"));
+            .ShouldContain(err => err.MemberNames.Any(m => m == "Name"));
     }
-
-    
 }
