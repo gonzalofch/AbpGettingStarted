@@ -6,11 +6,11 @@ using Volo.Abp.Application.Services;
 
 namespace Acme.Bookstore.Authors;
 
-public class IAuthorAppService : IApplicationService
+public interface IAuthorAppService :IApplicationService
 {
     Task<AuthorDto> GetAsync(Guid id);
     Task<PagedResultDto<AuthorDto>> GetListAsync(GetAuthorListDto input);
     Task<AuthorDto> CreateAsync(CreateAuthorDto input);
-    Task UpdateAsync(Guid id, UpdateAuthorDto input);
+    Task UpdateAsync(Guid id,UpdateAuthorDto input);
     Task DeleteAsync(Guid id);
 }
