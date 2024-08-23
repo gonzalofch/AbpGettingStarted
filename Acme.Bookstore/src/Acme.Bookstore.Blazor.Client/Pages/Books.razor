@@ -54,6 +54,11 @@
                 <DataGridColumn TItem="BookDto"
                                 Field="@nameof(BookDto.Name)"
                                 Caption="@L["Name"]">
+                    <DataGridColumn TItem="BookDto"
+                                    Field="@nameof(BookDto.AuthorName)"
+                                    Caption="@L["Author"]">
+                    </DataGridColumn>
+
                 </DataGridColumn>
                 <DataGridColumn TItem="BookDto"
                                 Field="@nameof(BookDto.Type)"
