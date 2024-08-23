@@ -1,4 +1,5 @@
-﻿using Acme.Bookstore.Books;
+﻿using Acme.Bookstore.Authors;
+using Acme.Bookstore.Books;
 using AutoMapper;
 
 namespace Acme.Bookstore.Blazor.Client;
@@ -9,5 +10,6 @@ public class BookstoreBlazorAutoMapperProfile : Profile
     {
         //Define your AutoMapper configuration here for the Blazor project.
         CreateMap<BookDto, CreateUpdateBookDto>();
+        CreateMap<AuthorDto, UpdateAuthorDto>();
     }
 }
