@@ -98,6 +98,17 @@
                 <CloseButton Clicked="CloseCreateModalAsync"/>
             </ModalHeader>
             <ModalBody>
+                <Field>
+                    <FieldLabel>@L["Author"]</FieldLabel>
+                    <Select TValue="Guid" @bind-SelectedValue="@EditingEntity.AuthorId">
+                        @foreach (var author in authorList)
+                        {
+                            <SelectItem TValue="Guid" Value="@author.Id">
+                                @author.Name
+                            </SelectItem>
+                        }
+                    </Select>
+                </Field>
                 <Validations @ref="@CreateValidationsRef" Model="@NewEntity" ValidateOnLoad="false">
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>
@@ -154,6 +165,17 @@
                 <CloseButton Clicked="CloseEditModalAsync"/>
             </ModalHeader>
             <ModalBody>
+                <Field>
+                    <FieldLabel>@L["Author"]</FieldLabel>
+                    <Select TValue="Guid" @bind-SelectedValue="@NewEntity.AuthorId">
+                        @foreach (var author in authorList)
+                        {
+                            <SelectItem TValue="Guid" Value="@author.Id">
+                                @author.Name
+                            </SelectItem>
+                        }
+                    </Select>
+                </Field>
                 <Validations @ref="@EditValidationsRef" Model="@NewEntity" ValidateOnLoad="false">
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>
@@ -204,10 +226,29 @@
 
 @code
 {
+    IReadOnlyList<AuthorLookupDto> authorList = Array.Empty<AuthorLookupDto>();
+
     public Books() // Constructor
     {
         CreatePolicyName = BookstorePermissions.Books.Create;
         UpdatePolicyName = BookstorePermissions.Books.Edit;
         DeletePolicyName = BookstorePermissions.Books.Delete;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        authorList = (await AppService.GetAuthorLookupAsync()).Items;
+    }
+
+    protected override async Task OpenCreateModalAsync()
+    {
+        if (!authorList.Any())
+        {
+            throw new Exception(message: L["AnAuthorIsRequiredForCreatingBook"]);
+        }
+
+        await base.OpenCreateModalAsync();
+        NewEntity.AuthorId = authorList.First().Id;
     }
 }
